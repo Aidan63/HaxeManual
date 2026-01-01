@@ -2601,8 +2601,7 @@ Despite not being needed in most situations, value types are compatible with the
 <!--label:target-cpp-ExternTypes-PointerTypes-->
 ##### Pointer Types
 
-The context design pattern is prolific in C libraries, which is where you request a context which is a pointer to some object and pass that context into all library calls since it's responsible for managing state. Typically, you are not responsible for allocating or freeing the object (that's reserved to the library itself), instead you pass a pointer to a pointer which the context will be allocated into, or you call some allocation function which returns the context.
-Pointer type extern classes are ideal for representing this pattern, they share many similarities to the value type extern but represent a type which is passed by reference (i.e. a pointer) instead of a type which is passed by value.
+C and COM APIs require you to pass context objects into functions as C struct cannot contain functions, these contexts are simply pointers to a struct. In these APIs the user is not responsible for directly allocating the context (e.g. using `malloc`). Instead, the API provides some kind of alloc and free function to perform these acts for you. Due to the ubiquity of these APIs, pointer type extern classes were designed representing these patterns. They share many similarities to the value type extern but represent a type which is passed by reference (i.e. a pointer) instead of a type which is passed by value.
 
 ```c
 struct ctx {};
