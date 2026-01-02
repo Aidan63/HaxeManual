@@ -2847,15 +2847,23 @@ import haxe.ds.Vector;
 using cpp.marshal.ViewExtensions;
 using haxe.Int64;
 
+@:semantics(value)
+@:cpp.ValueType
+extern class Point {
+    var x : Float;
+    var y : Float;
+
+    function new():Void;
+}
+
 function main() {
-	final source = new Vector<Int>(10);
-    final view   = source.asView().slice(2, 5);
+    final bytes = Bytes.alloc(1024).asView();
+    final points : View<Point> = bytes.reinterpret();
 
-    for (i in 0...view.length.toInt()) {
-        view[i] = 10 + i;
+    for (i in 0...points.length.toInt()) {
+        points[i].x = Std.random(1000);
+        points[i].y = Std.random(1000);
     }
-
-    trace(source); // [ 0, 0, 10, 11, 12, 13, 14, 0, 0, 0 ]
 }
 ```
 
